@@ -26,9 +26,9 @@ $phalconDI->set("profiler",function(){
 /**
  * 数据库
  */
-$phalconDI->set('db',function() use ($config){
+$phalconDI->set('db',function() use ($config,$phalconDI){
     //实例化db连接
-    $connection = new DbAdapter(array(
+    $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
         'host' => $config->database->host,
         'username' => $config->database->username,
         'password' => $config->database->password,
@@ -36,7 +36,7 @@ $phalconDI->set('db',function() use ($config){
     ));
     //注册db查询事件，用profile组件记录sql语句
     $eventsManager = new \Phalcon\Events\Manager();
-    $profiler = $di->get("profiler");
+    $profiler = $phalconDI->get("profiler");
     $eventsManager->attach("db", function($event, $connection) use ($profiler){
         if ($event->getType() == 'beforeQuery') {
             $profiler->startProfile($connection->getSQLStatement());

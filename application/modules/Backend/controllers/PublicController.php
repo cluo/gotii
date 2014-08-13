@@ -12,7 +12,12 @@ class PublicController extends \Phalcon\Mvc\Controller
         if( ! $this->request->isPost()) {
             $this->view->setVar('title', '后台管理系统');
         } else {
-            xdebug_var_dump($_POST);
+            $username = $this->request->getPost('username');
+            $password = $this->request->getPost('password');
+            $user = \Model\User::findFirst(array("username = ?1","bind"=>array(1=>$username)));
+            if( ! $user || $user->password != md5($password)){
+                $message = new \Wuai\Message\ViewMessage();
+            }
             $this->view->disable();
         }
     }

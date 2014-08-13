@@ -1,0 +1,51 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "5f05faa81d5410d0b0b696443a4bc38e",
+    "packages": [
+        {
+            "name": "wuai/utils",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zstxt1989/wuai.git",
+                "reference": "4b1597091e713d83c178ed4fd289a5f1054c255c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zstxt1989/wuai/zipball/4b1597091e713d83c178ed4fd289a5f1054c255c",
+                "reference": "4b1597091e713d83c178ed4fd289a5f1054c255c",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wuai\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-08-13 07:37:28"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "wuai/utils": 20
+    },
+    "prefer-stable": false,
+    "platform": {
+        "php": ">=5.3",
+        "ext-phalcon": ">=1.3.2"
+    },
+    "platform-dev": [
+
+    ]
+}
