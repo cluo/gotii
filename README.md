@@ -15,3 +15,6 @@ PHP版本 >= 5.3
 将本项目克隆或下载到本地解压，在根目录执行  
 `php composer.phar install --prefer-source --dev`
 
+项目进度
+-----
+**1%**
