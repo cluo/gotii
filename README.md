@@ -10,5 +10,8 @@ PHP版本 >= 5.3
 * 对性能有要求的用户
 * 长得帅/漂亮的用户
 
-
+安装
+------
+将本项目克隆或下载到本地解压，在根目录执行
+>php composer.phar install --prefer-source --dev
 
