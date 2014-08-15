@@ -4,30 +4,30 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5f05faa81d5410d0b0b696443a4bc38e",
+    "hash": "20160ac552289c8b44533cb2584341c8",
     "packages": [
         {
             "name": "wuai/utils",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zstxt1989/wuai.git",
-                "reference": "4b1597091e713d83c178ed4fd289a5f1054c255c"
+                "url": "https://github.com/zstxt1989/wuai-utils.git",
+                "reference": "6c2084ce7031e8de35a1219eb694040828cb312a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zstxt1989/wuai/zipball/4b1597091e713d83c178ed4fd289a5f1054c255c",
-                "reference": "4b1597091e713d83c178ed4fd289a5f1054c255c",
+                "url": "https://api.github.com/repos/zstxt1989/wuai-utils/zipball/6c2084ce7031e8de35a1219eb694040828cb312a",
+                "reference": "6c2084ce7031e8de35a1219eb694040828cb312a",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Wuai\\": "src/"
+                    "Wuai\\Utils\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-08-13 07:37:28"
+            "time": "2014-08-13 08:21:45"
         }
     ],
     "packages-dev": [

@@ -8,7 +8,7 @@
 
 /*初始化几个对象*/
 include ROOT_PATH."/vendor/autoload.php";//composer的自动加载器
-$message = new \Wuai\Message\ViewMessage();
+
 $config = new \Phalcon\Config(include __DIR__."/configs/main.conf.php");//项目配置
 $application = new \Phalcon\Mvc\Application();
 

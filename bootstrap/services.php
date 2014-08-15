@@ -88,6 +88,7 @@ $phalconDI->set('router', function () use ($config) {
     $router->setDefaultNamespace("Controller");
     $router->setDefaultController('index');
     $router->setDefaultAction('index');
+    $router->notFound(array('controller'=>'httperr','action'=>'err404'));
     return $router;
 }, true);
 
@@ -96,5 +97,5 @@ $phalconDI->set('router', function () use ($config) {
  * @author 吾爱 <carlton.cheng@foxmail.com>
  */
 $phalconDI->set('message',function(){
-    return new \Wuai\Message\ViewMessage();
-});
+    return new \Wuai\Utils\Message\ViewMessage();
+},true);
