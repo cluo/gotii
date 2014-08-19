@@ -9,6 +9,6 @@ class IndexController extends BackendController
 {
     public function indexAction()
     {
-        
+        print_r($this->user);
     }
 }

@@ -7,8 +7,13 @@ namespace Backend\Controller;
  */
 abstract class BackendController extends \Phalcon\Mvc\Controller
 {
+    public $user;
     public function initialize()
     {
-        $this->response->redirect('Backend/public/login');
+        if (!($user = $this->session->get('user'))) {
+            $this->response->redirect('Backend/public/login');
+        }
+        $this->user = $user;
+        $this->view->setVar('user', $this->user);
     }
 }
