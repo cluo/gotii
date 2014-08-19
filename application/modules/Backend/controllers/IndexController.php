@@ -1,7 +1,7 @@
 <?php
 namespace Backend\Controller;
 /**
- * [文件描述]
+ * 后台首页控制器
  * @author 吾爱 <carlton.cheng@foxmail.com>
  * @license http://opensource.org/licenses/mit-license.php
  */
