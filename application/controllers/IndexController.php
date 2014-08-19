@@ -10,7 +10,7 @@ class IndexController extends \Phalcon\Mvc\Controller
 {
     public function indexAction()
     {
-        echo "!";
+        echo "默认首页";
     }
     
     public function helloAction()

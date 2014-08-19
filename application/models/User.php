@@ -9,6 +9,6 @@ class User extends \Phalcon\Mvc\Model
 {
     public function getSource()
     {
-        return "gotii_user";
+        return "wx_user";
     }
 }

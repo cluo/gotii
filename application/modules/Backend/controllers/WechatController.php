@@ -5,10 +5,15 @@ namespace Backend\Controller;
  * @author 吾爱 <carlton.cheng@foxmail.com>
  * @license http://opensource.org/licenses/mit-license.php
  */
-class IndexController extends BackendController
+class WechatController extends BackendController
 {
     public function indexAction()
     {
         
+    }
+    
+    public function addAction()
+    {
+        echo "add";
     }
 }

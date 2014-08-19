@@ -88,6 +88,10 @@ $phalconDI->set('router', function () use ($config) {
     $router->setDefaultNamespace("Controller");
     $router->setDefaultController('index');
     $router->setDefaultAction('index');
+    $router->add('/',array(
+        "controller"=>'index',
+        "action"=>'index'
+    ));
     $router->notFound(array('controller'=>'httperr','action'=>'err404'));
     return $router;
 }, true);
