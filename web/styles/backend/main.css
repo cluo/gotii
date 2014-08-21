@@ -1,3 +1,9 @@
+/*辅助类*/
+.inline{display:inline;}
+.inline-block{display:inline-block;}
+.container-nopadding{padding: 0;}
+.toolbar{margin:10px 0;}
+/*公众号列表表格*/
 .index_wechat_table tbody>tr>td{
     line-height:50px;
 }

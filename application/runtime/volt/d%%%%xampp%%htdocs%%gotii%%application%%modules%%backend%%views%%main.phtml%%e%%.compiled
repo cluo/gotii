@@ -1,9 +1,10 @@
-<html>
+a:7:{i:0;s:363:"<html>
     <head>
         <title>后台首页</title>
         <link href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         <link href="http://cdn.bootcss.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<?=$this->url->get('styles/backend/main.css');?>"/>
+        ";s:3:"css";N;i:1;s:1842:"
         <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     </head>
     <body>
@@ -37,9 +38,9 @@
                 </div>
             </div>
         </header>
-        <section class="container">
-            <?=$this->getContent();?>
-        </section>
+        <div class="container">
+            ";s:7:"content";N;i:2;s:328:"
+        </div>
     </body>
     <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script>
@@ -48,15 +49,8 @@
             if(window.currentnav){
                 $('#'+window.currentnav).addClass('active');
             }
-            //为button绑定跳转url功能
-            $("button[data-url != '']").click(function(){
-                var url = $(this).attr('data-url');
-                if($(this).attr('data-target')=='_blank'){
-                    window.open(url)
-                }else{
-                    window.location.href=$(this).attr('data-url'); 
-                }
-            });
         })
     </script>
+    ";s:10:"javascript";N;i:3;s:11:"
 </html>
+";}

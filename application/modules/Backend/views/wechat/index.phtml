@@ -1,10 +1,12 @@
+{% extends "main.phtml" %}
+{% block content %}
 <ol class="breadcrumb">
   <li><a href="<?=$this->url->get('Backend');?>">首页</a></li>
   <li class="active">公众号</li>
 </ol>
 
-<section class="page-header">
-    <button type='button' class='btn btn-primary' data-url="<?=$this->url->get('Backend/wechat/add');?>">添加公众号</button>
+<section class="toolbar">
+    <a class='btn btn-primary' href="<?=$this->url->get('Backend/wechat/add');?>">添加公众号</a>
 </section>
 
 <table class="table index_wechat_table small">
@@ -33,3 +35,4 @@
         <td>进入管理 删除 编辑</td>
     </tr>
 </table>
+{% endblock %}

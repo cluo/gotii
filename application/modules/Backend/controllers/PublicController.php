@@ -9,7 +9,10 @@ namespace Backend\Controller;
  */
 class PublicController extends \Phalcon\Mvc\Controller
 {
-
+    public function initialize()
+    {
+        $this->view->setRenderLevel(1);
+    }
     public function loginAction()
     {
         if ($this->session->get('user')) {

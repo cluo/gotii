@@ -14,6 +14,6 @@ class WechatController extends BackendController
     
     public function addAction()
     {
-        echo "add";
+        
     }
 }

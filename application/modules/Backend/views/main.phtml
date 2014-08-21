@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>后台首页</title>
+        <link href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://cdn.bootcss.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="<?=$this->url->get('styles/backend/main.css');?>"/>
+        {% block css %}{% endblock %}
+        <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <header class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">折叠导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">后台</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li id='nav-0'><a href="">首页</a></li>
+                        <li id='nav-1'><a href="<?=$this->url->get('Backend/wechat/index');?>">公众号</a></li>
+                    </ul>
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class='text-success'>admin</b> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="">注销</a></li>
+                                <li class="divider"></li>
+                                <li><a href="">修改密码</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+    <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            //菜单状态
+            if(window.currentnav){
+                $('#'+window.currentnav).addClass('active');
+            }
+        })
+    </script>
+    {% block javascript %}{% endblock %}
+</html>
