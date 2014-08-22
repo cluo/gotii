@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: 127.0.0.1
--- 生成日期: 2014-08-20 07:19:59
+-- 生成日期: 2014-08-22 11:33:44
 -- 服务器版本: 5.6.14
 -- PHP 版本: 5.5.6
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `wx_user` (
 --
 
 INSERT INTO `wx_user` (`id`, `username`, `password`, `lasttime`, `lastip`, `regtime`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1408430214, '127.0.0.1', 1407913465);
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1408694710, '127.0.0.1', 1407913465);
 
 -- --------------------------------------------------------
 
@@ -53,10 +53,19 @@ INSERT INTO `wx_user` (`id`, `username`, `password`, `lasttime`, `lastip`, `regt
 CREATE TABLE IF NOT EXISTS `wx_wechat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `token` varchar(23) NOT NULL COMMENT '唯一token',
-  `type` enum('sub','serv') NOT NULL DEFAULT 'sub' COMMENT '账号类型sub订阅serv服务',
-  `verified` enum('yes','no') NOT NULL DEFAULT 'no',
+  `name` varchar(13) NOT NULL COMMENT '微信公众号名称',
+  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '账号类型0订阅1服务',
+  `verified` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0未认证1认证',
+  `avatar` varchar(200) NOT NULL COMMENT '头像图片路径',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='绑定的公众号' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='绑定的公众号' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `wx_wechat`
+--
+
+INSERT INTO `wx_wechat` (`id`, `token`, `name`, `type`, `verified`, `avatar`) VALUES
+(1, '53f70e3370cfe', '11111', 1, 1, 'uploads/img/201408/22/696ee10ca6d8cfccd71adece4b9d8bc2.gif');
 
 -- --------------------------------------------------------
 

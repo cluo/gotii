@@ -1,14 +1,14 @@
 <?php
 namespace Model;
 /**
- * 用户账户模型
+ * 公众号信息模型
  * @author 吾爱 <carlton.cheng@foxmail.com>
  * @license http://opensource.org/licenses/mit-license.php
  */
-class User extends \Phalcon\Mvc\Model
+class Wechat extends \Phalcon\Mvc\Model
 {
     public function getSource()
     {
-        return "wx_user";
+        return "wx_wechat";
     }
 }
