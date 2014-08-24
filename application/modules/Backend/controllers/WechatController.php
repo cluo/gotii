@@ -9,12 +9,12 @@ class WechatController extends BackendController
 {
     public function indexAction()
     {
-        
+        $this->view->setVar('title','公众号管理-');
     }
     
     public function addAction()
     {
-        
+        $this->view->setVar('title','添加公众号-');
     }
     
     public function updateAction()

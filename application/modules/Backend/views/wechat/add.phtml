@@ -5,7 +5,7 @@
 {% block content %}
 <ol class="breadcrumb">
   <li><a href="{{ url.get('Backend') }}">首页</a></li>
-  <li><a href="{{ url.get('Backend/wechat') }}">公众号</a></li>
+  <li><a href="{{ url.get('Backend/wechat') }}">公众号管理</a></li>
   <li class="active">新增</li>
 </ol>
 <form role="form" class="form-horizontal" method="post" action="{{ url('Backend/wechat/update') }}">
@@ -81,4 +81,7 @@
 
     });
 </script>
+{% endblock %}
+{% block javascript %}
+<script>window.currentnav='nav-1';</script>
 {% endblock %}

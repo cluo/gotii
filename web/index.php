@@ -4,8 +4,8 @@
  * @author 吾爱 <carlton.cheng@foxmail.com>
  * @license http://opensource.org/licenses/mit-license.php
  */
+//error_reporting(E_ALL^E_NOTICE);
 error_reporting(E_ALL);
-
 header("Content-Type:text/html;charset=utf-8");
 
 ini_set("display_errors","1");

@@ -2,7 +2,7 @@
 {% block content %}
 <ol class="breadcrumb">
   <li><a href="<?=$this->url->get('Backend');?>">首页</a></li>
-  <li class="active">公众号</li>
+  <li class="active">公众号管理</li>
 </ol>
 
 <section class="toolbar">
@@ -35,4 +35,7 @@
         <td>进入管理 删除 编辑</td>
     </tr>
 </table>
+{% endblock %}
+{% block javascript %}
+<script>window.currentnav='nav-1';</script>
 {% endblock %}
