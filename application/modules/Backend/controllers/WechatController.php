@@ -17,6 +17,12 @@ class WechatController extends BackendController
     
     public function addAction()
     {
+        $token = uniqid();
+        $info = (object)array(
+            'token' => $token,
+            'url' => 'http://localhost/api/wechat?token='.$token
+        );
+        $this->view->setVar('info',$info);
         $this->view->setVar('title','添加公众号-');
     }
     
@@ -28,31 +34,30 @@ class WechatController extends BackendController
             echo $this->message->error('账号不存在');
             return $this->view->disable();
         }
-        xdebug_var_dump($info);
+        $this->view->setVar('info',$info);
     }
     
     public function updateAction()
     {
         $this->view->disable();
+        
         if (!$this->request->isPost())
         {
             echo $this->message->error("非法请求");
             return false;
         }
-        $wechat = new \Model\Wechat();
+        
         $data = $this->request->getPost('wechat');
-        $wechat->token = uniqid();
-        $wechat->name = $data['name'];
-        $wechat->type = $data['type'];
-        $wechat->verified = $data['verified'];
-        $wechat->avatar = $data['avatar'];
-        if ($wechat->create() == false) {
-            echo "Umh, We can't store robots right now: \n";
+        
+        $wechat = new \Model\Wechat();
+        
+        if ($wechat->save($data) == false) {
+            echo "出错了:<br/>";
             foreach ($wechat->getMessages() as $message) {
-                echo $message, "\n";
+                echo $message, "<br/>";
             }
         } else {
-            echo "Great, a new robot was created successfully!";
+            echo empty($data['id'])?'添加成功':'保存成功';
         }
     }
 }

@@ -18,10 +18,21 @@ define("APP_PATH", ROOT_PATH . "/application");//定义应用目录常量
 try {
     include ROOT_PATH . "/bootstrap/bootstrap.php"; 
 } catch (\Exception $e) {
+    
     echo "File:" . $e->getFile() . "<br/>";
     echo "Line:" . $e->getLine() . "<br/>";
     echo "Message:" . $e->getMessage() . "<br/>";
     $trace = $e->getTraceAsString();
     echo nl2br($trace);
+    //sql语句记录
+    $profiles = $phalconDI->get('profiler')->getProfiles();
+    if($profiles){
+        echo "sql语句记录：<br/>";
+        foreach($profiles as $profile){
+            echo $profile->getSQLStatement()."<br/>";
+        }
+        
+    }
+    
     echo "<br/>内存占用：".round(xdebug_memory_usage()/1024,2)."kb,消耗时间：".round(xdebug_time_index()*1000,3)."ms";
 }

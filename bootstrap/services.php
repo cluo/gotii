@@ -32,7 +32,10 @@ $phalconDI->set('db',function() use ($config,$phalconDI){
         'host' => $config->database->host,
         'username' => $config->database->username,
         'password' => $config->database->password,
-        'dbname' => $config->database->dbname
+        'dbname' => $config->database->dbname,
+        "options" => array(
+            PDO::MYSQL_ATTR_INIT_COMMAND => "set names utf8"
+        )
     ));
     //注册db查询事件，用profile组件记录sql语句
     $eventsManager = new \Phalcon\Events\Manager();
