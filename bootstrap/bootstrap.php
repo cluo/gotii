@@ -7,7 +7,7 @@
  */
 
 /*初始化几个对象*/
-$config = new \Phalcon\Config(include __DIR__."/configs/main.conf.php");//项目配置
+$config = new \Phalcon\Config\Adapter\Ini(__DIR__."/configs/main.conf.php");//项目配置
 $application = new \Phalcon\Mvc\Application();
 
 /*基本流程，按顺序执行*/
