@@ -12,7 +12,8 @@ $phalconLoader = new \Phalcon\Loader();
 
 $phalconLoader->registerNamespaces(array(
     "Controller" => APP_PATH."/controllers",
-    "Model"=>APP_PATH."/models"
+    "Model"=>APP_PATH."/models",
+    "Lib"=>APP_PATH."/libraries"
 ));//通过命名空间路径映射实现自动加载
 
 $phalconLoader->register();

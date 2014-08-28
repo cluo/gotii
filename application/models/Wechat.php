@@ -16,7 +16,10 @@ class Wechat extends BaseModel
     public $appsecret = '';
     public $avatar = '';
     
-    
+    public function onConstruct()
+    {
+        $this->skipAttributesOnUpdate(array('token'));
+    }
     public function getSource()
     {
         return "wx_wechat";
@@ -24,7 +27,7 @@ class Wechat extends BaseModel
     
     public function beforeValidationOnCreate()
     {
-        //$this->token = uniqid();
+        
     }
     
     public function validation()

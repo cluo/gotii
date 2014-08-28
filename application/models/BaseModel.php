@@ -10,9 +10,9 @@ abstract class BaseModel extends \Phalcon\Mvc\Model
 {
     public function initialize()
     {
-        self::setup(array(
-            'notNullValidations'=>false
-        ));
+//        self::setup(array(
+//            'notNullValidations'=>false
+//        ));
     }
     
     public function getAttributes()

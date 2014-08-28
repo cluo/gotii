@@ -9,6 +9,7 @@ class HttperrController extends \Phalcon\Mvc\Controller
 {
     public function err404Action()
     {
-        $this->response->setStatusCode('404','404 NOT FOUND');
+        header('HTTP/1.1 404 Not Found');
+        header('Status:404 Not Found');
     }
 }

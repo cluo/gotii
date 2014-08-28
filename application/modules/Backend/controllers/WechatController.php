@@ -19,8 +19,7 @@ class WechatController extends BackendController
     {
         $token = uniqid();
         $info = (object)array(
-            'token' => $token,
-            'url' => 'http://localhost/api/wechat?token='.$token
+            'token' => $token
         );
         $this->view->setVar('info',$info);
         $this->view->setVar('title','添加公众号-');
@@ -57,7 +56,9 @@ class WechatController extends BackendController
                 echo $message, "<br/>";
             }
         } else {
-            echo empty($data['id'])?'添加成功':'保存成功';
+            $msg = empty($data['id'])?'添加成功':'保存成功';
+            echo $this->message->success($msg,$this->url->get('Backend/wechat'));
+            //echo $this->profiler->getLastProfile()->getSQLStatement();
         }
     }
 }

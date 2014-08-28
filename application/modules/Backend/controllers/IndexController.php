@@ -9,6 +9,8 @@ class IndexController extends BackendController
 {
     public function indexAction()
     {
-        
+        $auth = $this->di->get('auth');
+        $auth->check('/ma',1);
+        exit;
     }
 }

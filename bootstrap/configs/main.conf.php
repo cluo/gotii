@@ -6,6 +6,7 @@
  */
 return array(
     'baseuri' => '/',
+    'staticbaseuri' => 'http://gotii.org/',
     'database' => array(
         'host'=>'127.0.0.1',
         'username'=>'root',

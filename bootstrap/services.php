@@ -13,6 +13,7 @@ $phalconDI = new \Phalcon\DI\FactoryDefault();
 $phalconDI->set('url',function() use ($config){
     $url = new \Phalcon\Mvc\Url();
     $url->setBaseUri($config->baseuri);
+    $url->setStaticBaseUri($config->staticbaseuri);
     return $url;
 },true);
 

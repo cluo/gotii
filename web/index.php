@@ -22,7 +22,7 @@ try {
     echo "File:" . $e->getFile() . "<br/>";
     echo "Line:" . $e->getLine() . "<br/>";
     echo "Message:" . $e->getMessage() . "<br/>";
-    $trace = $e->getTraceAsString();
+    $trace = $e->getTraceAsString()."<br/>";
     echo nl2br($trace);
     //sql语句记录
     $profiles = $phalconDI->get('profiler')->getProfiles();
