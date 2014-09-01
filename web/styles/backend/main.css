@@ -1,3 +1,19 @@
+@keyframes fade-in {
+    0% {opacity: 0.1;}
+    100% {opacity: 1;}
+}
+@-webkit-keyframes fade-in {/*针对webkit内核*/
+    0% {opacity: 0.1;}
+    100% {opacity: 1;}
+}
+body {
+    animation: fade-in;/*动画名称*/
+    animation-duration: 1.5s;/*动画持续时间*/
+    -webkit-animation:fade-in 1.5s;/*针对webkit内核*/
+}
+
+/*修改bootstrap*/
+.navbar {font-weight: bold;}
 /*辅助类*/
 .inline{display:inline;}
 .inline-block{display:inline-block;}
@@ -8,3 +24,41 @@
     line-height:50px;
 }
 .index_wechat_table td img{height:50px;width:50px;}
+
+/*边栏*/
+.sidebar {
+    width: 180px;
+    float:left;
+    background-color:rgb(245,245,245);
+    border-radius: 5px;
+    padding:10px;
+    box-shadow: 2px 2px 2px #ddd;
+}
+.sidebar dl{
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+.sidebar dl dd{
+    padding:5px;
+}
+.sidebar dl dd:hover{
+    background-color:#ddd;
+    cursor: pointer;
+}
+.sidebar dl dd a{
+    text-decoration: none;
+    color:#666;
+    display: block;
+}
+/*内容区域*/
+.content {
+    width:950px;
+    margin-left:190px;
+    background-color:rgba(250,250,250,0.8);
+    border-radius: 5px;
+    padding:10px;
+    min-height: 900px;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 2px #ddd;
+}
