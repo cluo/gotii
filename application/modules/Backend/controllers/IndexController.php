@@ -24,6 +24,6 @@ class IndexController extends BackendController
         }
         //写入session后跳转到公众号管理页面
         $this->session->set('wechat',$wechat->toArray());
-        $this->response->redirect("Backend/Wechat");
+        $this->response->redirect($this->url->get('WxBasic/index'));
     }
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: 127.0.0.1
--- 生成日期: 2014-08-28 11:26:46
+-- 生成日期: 2014-09-01 11:49:14
 -- 服务器版本: 5.6.14
 -- PHP 版本: 5.5.6
 
@@ -27,11 +27,37 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `wx_auth_group` (
-  `id` mediumint(9) NOT NULL,
-  `title` varchar(20) NOT NULL COMMENT '组名',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：0禁用1开启',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(20) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户组表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `wx_auth_group`
+--
+
+INSERT INTO `wx_auth_group` (`id`, `title`, `status`) VALUES
+(1, '管理员', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wx_auth_group_rule`
+--
+
+CREATE TABLE IF NOT EXISTS `wx_auth_group_rule` (
+  `gid` int(11) NOT NULL,
+  `rid` int(11) NOT NULL,
+  PRIMARY KEY (`gid`,`rid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户组-规则关联表';
+
+--
+-- 转存表中的数据 `wx_auth_group_rule`
+--
+
+INSERT INTO `wx_auth_group_rule` (`gid`, `rid`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -50,8 +76,7 @@ CREATE TABLE IF NOT EXISTS `wx_auth_group_user` (
 --
 
 INSERT INTO `wx_auth_group_user` (`uid`, `gid`) VALUES
-(1, 1),
-(1, 2);
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -64,7 +89,14 @@ CREATE TABLE IF NOT EXISTS `wx_auth_rule` (
   `name` varchar(80) NOT NULL COMMENT '规则名',
   `title` varchar(20) NOT NULL COMMENT '标题',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='规则表' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='规则表' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `wx_auth_rule`
+--
+
+INSERT INTO `wx_auth_rule` (`id`, `name`, `title`) VALUES
+(1, 'superadmin', '超级管理员');
 
 -- --------------------------------------------------------
 
@@ -88,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `wx_user` (
 --
 
 INSERT INTO `wx_user` (`id`, `username`, `password`, `lasttime`, `lastip`, `regtime`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1409189113, '127.0.0.1', 1407913465);
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1409554253, '127.0.0.1', 1407913465);
 
 -- --------------------------------------------------------
 

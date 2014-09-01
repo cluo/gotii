@@ -17,7 +17,7 @@
         <td>{{ item.name }}</td>
         <td>{{ item.token }}</td>
         <td>{% if item.type is '0' %}订阅号{% else %}服务号{% endif %} {% if item.verified is '0' %}<span class="label label-default">未认证</span>{% else %}<span class="label label-success">已认证</span>{% endif %}</td>
-        <td><a href="{{ url('Wechat/index') }}" class="btn btn-primary">管理</a></td>
+        <td><a href="{{ url('loginWechat',['id':item.id]) }}" class="btn btn-primary">管理</a></td>
     </tr>
     {% endfor %}
     
