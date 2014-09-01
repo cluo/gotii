@@ -26,10 +26,10 @@ class Module implements ModuleDefinitionInterface{
     {
         //注册auth类
         $di->set('auth',function() use ($di){
-            $auth = new \Lib\Auth\Auth($uid);
+            $auth = new \Lib\Auth\Auth();
             $auth->setDi($di);
             return $auth;
-        });
+        },true);
         //volt模板引擎服务
         $di->set('voltService', function($view, $di) {
             $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);

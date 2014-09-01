@@ -2,11 +2,11 @@
 namespace Backend\Controller;
 use \Model\Wechat as Wechat;
 /**
- * 公众号管理控制器
+ * 公众号账号管理控制器
  * @author 吾爱 <carlton.cheng@foxmail.com>
  * @license http://opensource.org/licenses/mit-license.php
  */
-class WechatController extends BackendController
+class WechatAccountController extends BackendController
 {
     public function indexAction()
     {

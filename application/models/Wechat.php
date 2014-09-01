@@ -25,11 +25,6 @@ class Wechat extends BaseModel
         return "wx_wechat";
     }
     
-    public function beforeValidationOnCreate()
-    {
-        
-    }
-    
     public function validation()
     {
         $this->validate(new \Model\Validator\Utf8Strlen(array(

@@ -9,8 +9,21 @@ class IndexController extends BackendController
 {
     public function indexAction()
     {
-        $auth = $this->di->get('auth');
-        $auth->check('/ma',1);
-        exit;
+        $list = \Model\Wechat::find();
+        $this->view->setVar('list',$list);
+        $this->view->setVar('title','请选择公众号-');
+    }
+    
+    public function loginWechatAction()
+    {
+        $id = $this->request->get('id','int');
+        //存在和权限判断
+        if (!$id || !$wechat = \Model\Wechat::findFirst(array("id=?1",'bind'=>array(1=>$id)))) {
+            $msg = $this->message->error("公众号不存在或没有权限管理");
+            return $this->response->setContent($msg);
+        }
+        //写入session后跳转到公众号管理页面
+        $this->session->set('wechat',$wechat->toArray());
+        $this->response->redirect("Backend/Wechat");
     }
 }

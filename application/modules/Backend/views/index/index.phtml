@@ -1,6 +1,27 @@
 {% extends "main.phtml" %}
 {% block content %}
-这里是内容
+<h3>选择公众号管理</h3>
+<table class="table index_wechat_table small">
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>公众号</th>
+            <th>token</th>
+            <th>属性</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    {% for item in list %}
+    <tr>
+        <td><img src="{{ url(item.avatar) }}"/></td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.token }}</td>
+        <td>{% if item.type is '0' %}订阅号{% else %}服务号{% endif %} {% if item.verified is '0' %}<span class="label label-default">未认证</span>{% else %}<span class="label label-success">已认证</span>{% endif %}</td>
+        <td><a href="{{ url('Wechat/index') }}" class="btn btn-primary">管理</a></td>
+    </tr>
+    {% endfor %}
+    
+</table>
 {% endblock %}
 {% block javascript %}
 <script>window.currentnav='nav-0';</script>

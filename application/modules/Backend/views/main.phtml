@@ -3,7 +3,7 @@
         <title>{{ title|default('') }}管理后台</title>
         <link href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         <link href="http://cdn.bootcss.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="<?=$this->url->get('styles/backend/main.css');?>"/>
+        <link rel="stylesheet" href="{{ url.getStatic('styles/backend/main.css') }}"/>
         {% block css %}{% endblock %}
         <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     </head>
@@ -21,11 +21,12 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li id='nav-0'><a href="{{ url('Backend/index/index') }}">首页</a></li>
+                        <li id='nav-0'><a href="{{ url('/Backend') }}">首页</a></li>
+                        {% if auth.checkGroup(1,user['id']) %}
                         <li class="dropdown">
                             <a href="#"  class="dropdown-toggle" data-toggle="dropdown">系统管理<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li id='nav-1'><a href="<?=$this->url->get('Backend/wechat/index');?>">公众号管理</a></li>
+                                <li id='nav-1'><a href="{{ url('WechatAccount/index') }}">公众号管理</a></li>
                                 <li><a href="#">菜单</a></li>
                                 <li><a href="#">菜单</a></li>
                                 <li class="divider"></li>
@@ -34,11 +35,12 @@
                                 <li><a href="#">菜单</a></li>
                             </ul>
                         </li>
+                        {% endif %}
                     </ul>
                     
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class='text-success'>admin</b> <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class='text-success'>{{ user['username'] }}</b> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="">注销</a></li>
                                 <li class="divider"></li>

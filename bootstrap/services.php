@@ -11,7 +11,8 @@ $phalconDI = new \Phalcon\DI\FactoryDefault();
  * url组件
  */
 $phalconDI->set('url',function() use ($config){
-    $url = new \Phalcon\Mvc\Url();
+    $url = new \Lib\Extend\Url();
+    //$url = new \Phalcon\Mvc\Url();
     $url->setBaseUri($config->baseuri);
     $url->setStaticBaseUri($config->staticbaseuri);
     return $url;
@@ -90,10 +91,10 @@ $phalconDI->set('router', function () use ($config) {
     //初始化路由
     $router = new \Phalcon\Mvc\Router();
     $router->setDefaultNamespace("Controller");
-    $router->setDefaultController('index');
+    $router->setDefaultController('Index');
     $router->setDefaultAction('index');
     $router->add('/',array(
-        "controller"=>'index',
+        "controller"=>'Index',
         "action"=>'index'
     ));
     $router->notFound(array('controller'=>'httperr','action'=>'err404'));
