@@ -1,0 +1,14 @@
+<aside class="sidebar">
+    {% for group,item in menus %}
+    <dl>
+        <dt>{{ item['text'] }}</dt>
+        {% for id,child in item['children'] %}
+        {% if group~'.'~id is actived %}
+        <dd class='actived'><a href="{{ child['url'] }}">{{ child['text'] }}</a></dd>
+        {% else %}
+        <dd><a href="{{ child['url'] }}">{{ child['text'] }}</a></dd>
+        {% endif %}
+        {% endfor %}
+    </dl>
+    {% endfor %}
+</aside>

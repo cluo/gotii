@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: 127.0.0.1
--- 生成日期: 2014-09-01 11:49:14
+-- 生成日期: 2014-09-02 12:00:53
 -- 服务器版本: 5.6.14
 -- PHP 版本: 5.5.6
 
@@ -101,6 +101,54 @@ INSERT INTO `wx_auth_rule` (`id`, `name`, `title`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `wx_reply_data`
+--
+
+CREATE TABLE IF NOT EXISTS `wx_reply_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rule_id` int(11) NOT NULL COMMENT '所属规则id',
+  `data_type` enum('text','news') NOT NULL DEFAULT 'text',
+  `data_id` int(11) NOT NULL DEFAULT '0',
+  `content` varchar(250) NOT NULL COMMENT '回复内容',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自动回复内容' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wx_reply_keyword`
+--
+
+CREATE TABLE IF NOT EXISTS `wx_reply_keyword` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `wechat_id` int(11) NOT NULL,
+  `rule_id` int(11) NOT NULL COMMENT '所属规则id',
+  `match_method` tinyint(4) NOT NULL DEFAULT '1' COMMENT '匹配方式1为完全0为模糊',
+  `keyword` varchar(15) NOT NULL COMMENT '关键词',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `keyword` (`wechat_id`,`keyword`),
+  KEY `match_method` (`match_method`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='回复关键词列表' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wx_reply_rule`
+--
+
+CREATE TABLE IF NOT EXISTS `wx_reply_rule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '规则id',
+  `wechat_id` int(11) NOT NULL COMMENT '所属公众号',
+  `title` varchar(20) NOT NULL COMMENT '规则名',
+  `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '规则类型0关键词1关注时回复2机器人回复',
+  `send_method` tinyint(1) NOT NULL DEFAULT '0' COMMENT '发送方式0全部1随机取一条',
+  PRIMARY KEY (`id`),
+  KEY `wechat_id` (`wechat_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自动回复规则表' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `wx_user`
 --
 
@@ -120,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `wx_user` (
 --
 
 INSERT INTO `wx_user` (`id`, `username`, `password`, `lasttime`, `lastip`, `regtime`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1409554253, '127.0.0.1', 1407913465);
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1409620601, '127.0.0.1', 1407913465);
 
 -- --------------------------------------------------------
 
@@ -151,14 +199,21 @@ INSERT INTO `wx_wechat` (`id`, `token`, `name`, `type`, `verified`, `avatar`, `a
 -- --------------------------------------------------------
 
 --
--- 表的结构 `wx_wechat_acl`
+-- 表的结构 `wx_wechat_user`
 --
 
-CREATE TABLE IF NOT EXISTS `wx_wechat_acl` (
+CREATE TABLE IF NOT EXISTS `wx_wechat_user` (
   `uid` int(11) NOT NULL,
-  `wid` int(11) NOT NULL,
-  `list` varchar(200) NOT NULL
+  `wechat_id` int(11) NOT NULL,
+  PRIMARY KEY (`uid`,`wechat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户管理公众号授权';
+
+--
+-- 转存表中的数据 `wx_wechat_user`
+--
+
+INSERT INTO `wx_wechat_user` (`uid`, `wechat_id`) VALUES
+(1, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

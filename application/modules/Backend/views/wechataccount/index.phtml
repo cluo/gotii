@@ -25,7 +25,7 @@
         <td>{{ item.name }}</td>
         <td>{{ item.token }}</td>
         <td>{% if item.type is '0' %}订阅号{% else %}服务号{% endif %} {% if item.verified is '0' %}<span class="label label-default">未认证</span>{% else %}<span class="label label-success">已认证</span>{% endif %}</td>
-        <td><a href="{{ url('delete',['id':item.id]) }}">删除</a> <a href="{{ url('edit',['id':item.id]) }}">编辑</a></td>
+        <td><a href="{{ url('delete',['id':item.id]) }}">删除</a> <a href="{{ url('edit',['id':item.id]) }}">编辑</a> <a href="{{ url('authorize',['id':item.id]) }}">授权</a></td>
     </tr>
     {% endfor %}
     

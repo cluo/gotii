@@ -1,0 +1,43 @@
+{% extends "main.phtml" %}
+{% block content %}
+{{ partial('aside',['actived':'g2.c1']) }}
+<section class="content">
+    <div class="row reply">
+        <!--左侧表单区域-->
+        <div class="col-md-6 reply-form">
+            <form role="form"  method="post">
+                <div class="form-group" style="max-width: 200px;">
+                    <label>类型</label>
+                    <select class="form-control" onchange="replyShowlist(this)">
+                        <option value="text">纯文本</option>
+                        <option value="news">图文</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>回复内容</label>
+                    <div class="reply-content">
+                        <textarea class="form-control" max-length="250"></textarea>
+                        <p class="help-block">250个字以内</p>
+                        <div class="reply-content-nottext">111</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div>
+        <!--右侧联动,选择数据-->
+        <div class="col-md-6 reply-list" style="display: none;">
+            
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block javascript %}
+<script>window.currentnav='nav-99';</script>
+<script>
+    function replyShowlist(e){
+        alert($(e).val())
+    }
+</script>
+{% endblock %}

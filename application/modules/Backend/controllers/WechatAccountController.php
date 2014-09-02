@@ -8,6 +8,13 @@ use \Model\Wechat as Wechat;
  */
 class WechatAccountController extends BackendController
 {
+    public function getAuthRule()
+    {
+        return array(
+            "*"=>array('superadmin')
+        );
+    }
+    
     public function indexAction()
     {
         $list = Wechat::find();
@@ -60,5 +67,48 @@ class WechatAccountController extends BackendController
             echo $this->message->success($msg,$this->url->get('Backend/wechat'));
             //echo $this->profiler->getLastProfile()->getSQLStatement();
         }
+    }
+    
+    /**
+     * 授权用户指定公众号查看权限
+     */
+    public function authorizeAction()
+    {
+        $id = $this->request->get('id','int','0');
+        $id && $info = Wechat::findFirst(array('id=?1','bind'=>array(1=>$id)));
+        if (empty($info)) {
+            echo $this->message->error('账号不存在');
+            return $this->view->disable();
+        }
+        $this->view->setVar('info',$info);
+        
+        //post提交处理
+        if ($this->request->isPost() == true) {
+            $username = $this->request->getPost('username','trim');
+            if ($username && $user = \Model\User::findFirst(array("username=?1",'bind'=>array(1=>$username)))) {
+                $wechatUser = new \Model\WechatUser;
+                $wechatUser->wechat_id = $info->id;
+                $wechatUser->uid = $user->id;
+                $wechatUser->create();
+            }
+        }
+        
+        $list = array();//已授权用户
+        $list = $info->users;
+        $this->view->setVar('list',$list);
+    }
+    
+    public function cancelAuthAction()
+    {
+        $this->view->disable();
+        $id = $this->request->get('id','int','0');
+        $uid = $this->request->get('uid','int','0');
+        $wechatUser = new \Model\WechatUser();
+        $wechatUser->uid = $uid;
+        $wechatUser->wechat_id = $id;
+        if ($wechatUser->delete() == true) {
+            return $this->response->setJsonContent(array("status"=>"1"));
+        }
+        return $this->response->setJsonContent(array("status"=>"0"));
     }
 }

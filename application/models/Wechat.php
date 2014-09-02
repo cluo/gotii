@@ -16,15 +16,26 @@ class Wechat extends BaseModel
     public $appsecret = '';
     public $avatar = '';
     
-    public function onConstruct()
-    {
-        $this->skipAttributesOnUpdate(array('token'));
-    }
+    //表名
     public function getSource()
     {
         return "wx_wechat";
     }
     
+    //只在第一次实例化的时候执行
+    public function initialize()
+    {
+        parent::initialize();
+        $this->hasManyToMany("id", "\Model\WechatUser", "wechat_id", "uid", "\Model\User", "id", array("alias"=>"users"));
+    }
+    
+    //每次实例化都执行
+    public function onConstruct()
+    {
+        $this->skipAttributesOnUpdate(array('token'));
+    }
+    
+    //验证数据
     public function validation()
     {
         $this->validate(new \Model\Validator\Utf8Strlen(array(

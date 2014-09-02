@@ -5,10 +5,16 @@ namespace Model;
  * @author 吾爱 <carlton.cheng@foxmail.com>
  * @license http://opensource.org/licenses/mit-license.php
  */
-class User extends \Phalcon\Mvc\Model
+class User extends BaseModel
 {
     public function getSource()
     {
         return "wx_user";
+    }
+    
+    public function initialize()
+    {
+        parent::initialize();
+        $this->hasManyToMany("id", "\Model\WechatUser", "uid", "wechat_id", "\Model\Wechat", "id",array("alias"=>"wechat"));
     }
 }
