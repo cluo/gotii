@@ -1,6 +1,18 @@
-{% extends "wechat.phtml" %}
+{% extends "main.phtml" %}
 {% block content %}
-{{ super() }}
+<aside class="sidebar">
+    <dl>
+        <dt>基本信息</dt>
+        <dd><a href="#">1111</a></dd>
+        <dd>22222</dd>
+    </dl>
+    <dl>
+        <dt>自动回复</dt>
+        <dd>关注时回复</dd>
+        <dd>关键词回复</dd>
+        <dd>无匹配回复</dd>
+    </dl>
+</aside>
 <section class="content">
     微信basic
 </section>
