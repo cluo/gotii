@@ -14,9 +14,20 @@ ini_set("html_errors","1");
 define("IN_APP", TRUE);//定义IN_APP常量，用于被包含脚本的安全判断 
 define("ROOT_PATH", __DIR__.'/../');//定义站点根目录常量
 define("APP_PATH", ROOT_PATH . "/application");//定义应用目录常量
+define('RUNTIME_PATH', APP_PATH.'/runtime');//定义运行时文件目录
 
 try {
     include ROOT_PATH . "/bootstrap/bootstrap.php"; 
+    //将sql写到log文件中
+    $profiles = $phalconDI->get('profiler')->getProfiles();
+    $logger = $phalconDI->get('logger');
+    $logger->begin();
+    $logger->info('======='.date('Y-m-d H:i:s').'=======');
+    foreach ($profiles as $i=>$profile) {
+        $logger->info($profile->getSQLStatement());
+    }
+    $logger->info("=======END=======\n");
+    $logger->commit();
 } catch (\Exception $e) {
     
     echo "File:" . $e->getFile() . "<br/>";
@@ -24,15 +35,5 @@ try {
     echo "Message:" . $e->getMessage() . "<br/>";
     $trace = $e->getTraceAsString()."<br/>";
     echo nl2br($trace);
-    //sql语句记录
-    $profiles = $phalconDI->get('profiler')->getProfiles();
-    if($profiles){
-        echo "sql语句记录：<br/>";
-        foreach($profiles as $profile){
-            echo $profile->getSQLStatement()."<br/>";
-        }
-        
-    }
-    
     echo "<br/>内存占用：".round(xdebug_memory_usage()/1024,2)."kb,消耗时间：".round(xdebug_time_index()*1000,3)."ms";
 }

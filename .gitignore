@@ -1,3 +1,4 @@
 nbproject
 vendor
 application/runtime/volt/*.compiled
+application/runtime/logs/*.log

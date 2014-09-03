@@ -8,6 +8,43 @@
 $phalconDI = new \Phalcon\DI\FactoryDefault();
 
 /**
+ * 循环调度服务dispatcher
+ */
+//$phalconDI->set('dispatcher', function() use ($phalconDI){
+//    //Create an event manager
+//    $eventsManager = new \Phalcon\Events\Manager();
+//    //Attach a listener for type "dispatch"
+//    $eventsManager->attach("dispatch", function($event, $dispatcher) use ($phalconDI) {
+//        //调度结束后
+//        if ($event->getType() == 'afterDispatchLoop') {
+//            //将profile写入到文件中
+//            $profiles = $phalconDI->get('profiler')->getProfiles();
+//            $logger = $phalconDI->get('logger');
+//            $logger->begin();
+//            $logger->info('======='.date('Y-m-d H:i:s').'=======');
+//            foreach ($profiles as $profile) {
+//                $logger->info($profile->getSQLStatement());
+//            }
+//            $logger->commit();
+//        }
+//    });
+//
+//    $dispatcher = new \Phalcon\Mvc\Dispatcher();
+//
+//    $dispatcher->setEventsManager($eventsManager);
+//
+//    return $dispatcher;
+//
+//}, true);
+
+/**
+ * 日志记录服务
+ */
+$phalconDI->set('logger',function(){
+    return new \Phalcon\Logger\Adapter\File(RUNTIME_PATH."/logs/".date('Y-m-d').'.log');
+},true);
+
+/**
  * url组件
  */
 $phalconDI->set('url',function() use ($config){
@@ -39,17 +76,18 @@ $phalconDI->set('db',function() use ($config,$phalconDI){
             PDO::MYSQL_ATTR_INIT_COMMAND => "set names utf8"
         )
     ));
-    //注册db查询事件，用profile组件记录sql语句
+    //注册db事件管理器
     $eventsManager = new \Phalcon\Events\Manager();
-    $profiler = $phalconDI->get("profiler");
-    $eventsManager->attach("db", function($event, $connection) use ($profiler){
+    //用profile记录sql语句
+    $profiler = $phalconDI->get('profiler');
+    $eventsManager->attach("db",function($event,$connection) use ($profiler){
         if ($event->getType() == 'beforeQuery') {
             $profiler->startProfile($connection->getSQLStatement());
-        }
-        if ($event->getType() == 'afterQuery') {
+        } elseif ($event->getType() == 'afterQuery') {
             $profiler->stopProfile();
-        }
+        } 
     });
+    //$eventsManager->attach('db', new \Lib\Events\MyDbListener($phalconDI));
     $connection->setEventsManager($eventsManager);
     //返回db实例
     return $connection;

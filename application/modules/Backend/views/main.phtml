@@ -1,11 +1,14 @@
 <html>
     <head>
         <title>{{ title|default('') }}管理后台</title>
-        <link href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ url.getStatic('styles/bootstrap.min.css') }}" rel="stylesheet">
         <link href="http://cdn.bootcss.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{{ url.getStatic('styles/backend/main.css') }}"/>
         {% block css %}{% endblock %}
         <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+        <link href="{{ url.getStatic('plugins/jqueryui/jquery-ui.min.css') }}" rel="stylesheet">
+        <script src="{{ url.getStatic('plugins/jqueryui/jquery-ui.min.js') }}"></script>
+        <script src="{{ url.getStatic('plugins/jquery.form.js') }}"></script>
     </head>
     <body>
         <header class="navbar navbar-default navbar-static-top">

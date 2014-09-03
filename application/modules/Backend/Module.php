@@ -34,7 +34,7 @@ class Module implements ModuleDefinitionInterface{
         $di->set('voltService', function($view, $di) {
             $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
             $volt->setOptions(array(
-                "compiledPath" => APP_PATH."/runtime/volt/",
+                "compiledPath" => RUNTIME_PATH."/volt/",
                 "compiledExtension" => ".compiled"
             ));
             return $volt;

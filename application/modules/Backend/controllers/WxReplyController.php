@@ -27,7 +27,12 @@ class WxReplyController extends WechatController
      */
     public function keywordAction()
     {
-        
+        $criteria = array(
+            'conditions' => "wechat_id=:wechat_id: AND type=:type:",
+            'bind' => array('wechat_id'=>$this->wechat['id'],'type'=>'0')
+        );
+        $list = \Model\ReplyRule::find($criteria);
+        $this->view->setVar('list', $list);
     }
     
     /**
@@ -36,6 +41,20 @@ class WxReplyController extends WechatController
     public function robotAction()
     {
         
+    }
+    
+    /**
+     * 添加规则
+     */
+    public function addRuleAction()
+    {
+        $this->view->disable();
+        $model = new \Model\ReplyRule();
+        $model->wechat_id = $this->wechat['id'];
+        if ($model->create($this->request->getPost('newrule')) == false) {
+            echo "添加失败";
+        }
+        echo "ok";
     }
 }
 
