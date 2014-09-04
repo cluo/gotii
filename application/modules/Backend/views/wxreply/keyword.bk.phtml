@@ -1,0 +1,232 @@
+{% extends "main.phtml" %}
+{% block content %}
+{{ partial('aside',['actived':'g2.c2']) }}
+<section class="content">
+    {% for rule in list %}
+    <div class="panel panel-default wx-reply" id="wx-rulelist-{{ rule.id }}">
+        <div class="panel-heading wx-reply-heading">
+            <div class="pull-left"><b>规则:</b> {{ rule.title }}</div>
+            <div class="open">展开<span class="caret"></span></div>
+        </div>
+        <div class="panel-body">
+            <div class="wx-reply-keywords">
+                <div class="wx-reply-keywords-overview">
+                    <strong>关键词</strong>
+                    {% if keywords[rule.id] is defined %}
+                        {% for keyword in keywords[rule.id] %}
+                        <em id="wx-reply-keyword-{{ keyword.id }}">{{ keyword.keyword }}</em>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="wx-reply-details">
+                <form class="form-horizontal">
+                     
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">规则名</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" value="{{ rule.title }}"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">关键词</label>
+                        <div class="col-md-4">
+                            <ul class="list-unstyled form-control-static keywordlist">
+                                {% if keywords[rule.id] is defined %}
+                                {% for keyword in keywords[rule.id] %}
+                                <li>{{ keyword.keyword }}(完全匹配) 
+                                    <a><i class="fa fa-pencil"></i></a> 
+                                    <a href="javascript:" onclick="wxDelKeyword({{ rule.id }}, {{ keyword.id }}, this)"><i class="fa fa-times"></i></a>
+                                </li>
+                                {% endfor %}
+                                {% endif %}
+                                <li><a href='javascript:' onclick="wxAddKeyword({{ rule.id }}, this)">添加关键词</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">回复内容</label>
+                        <div class="col-md-4">
+                            <div class="form-control-static">1111</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">回复方式</label>
+                        <div class="col-md-4">
+                            <span class="help-block">随机选取</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-4">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger">删除</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <button type="button" data-toggle="modal" data-target="#wx-reply-newrule" class="btn btn-primary">添加规则</button>
+</section>
+<!--弹出层：创建新规则-->
+<div class="modal fade" id="wx-reply-newrule">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">创建新规则</h4>
+            </div>
+            <form role="form" id="wx-reply-newrule-form" action="{{ url('addRule') }}" method="post">
+                <input type="hidden" name="newrule[type]" value="0"/>
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label>规则名：</label>
+                            <input type="text" class="form-control" name="newrule[title]" required/>
+                            <p class="help-block">10字以内</p>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="reset();">重置</button>
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--弹出层：添加关键词-->
+<div class="modal fade" id="wx-reply-addkeyword">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">新关键词</h4>
+            </div>
+            <form role="form" id="wx-reply-addkeyword-form" action="{{ url('addKeyword') }}" method="post">
+                <input type="hidden" name="keyword[rule_id]" id="wx-reply-addkeyword-ruleid"  value="0"/>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>关键词：</label>
+                        <input type="text" class="form-control" name="keyword[keyword]" required/>
+                        <p class="help-block">10字以内</p>
+                    </div>
+                    <div class="form-group">
+                        <label>匹配方式</label>
+                        <div class="checkbox">
+                            <label><input type="radio"  name="keyword[match_method]" value="0" checked/>完全匹配</label>
+                            <label><input type="radio"  name="keyword[match_method]" value="1"/>模糊匹配</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="reset();">重置</button>
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}
+{% block javascript %}
+<script>window.currentnav='nav-99';</script>
+<script>
+    $(function(){
+        //规则列表点击展开事件
+        $(".wx-reply").each(function(i){
+            var p = $(this);
+            var heading = p.find('.wx-reply-heading');
+            heading.on('selectstart',function(){return false});
+            heading.click(function(){
+                p.find('.wx-reply-keywords').toggle();
+                p.find('.wx-reply-details').toggle();
+            });
+        });
+        //end
+        
+        
+        //新规则表单提交事件
+        $("#wx-reply-newrule-form").submit(function(e){
+            e.preventDefault();
+            $(this).ajaxSubmit({
+                type:"post",
+                error:function(){
+                    alert('网络错误，请重试');
+                },
+                success:function(res){
+                    if (res != "ok") {
+                        $.wxAlert(res);
+                        return false;
+                    }
+                    //后台添加成功，刷新页面
+                    window.location.reload();
+                }
+            });
+        })
+        //end
+        
+        //新建关键词表单提交事件
+        $("#wx-reply-addkeyword-form").submit(function(e){
+            e.preventDefault();
+            $(this).ajaxSubmit({
+                type:"post",
+                dataType:'json',
+                error:function(){
+                    alert('网络错误，请重试');
+                },
+                success:function(res){
+                    if (typeof(res) == 'object') {
+                        if (res.status == 0) {
+                            $.wxAlert(res.msg);
+                        } else {
+                            var resdata = res.data;
+                            $("#wx-rulelist-"+resdata.rule_id).find(".wx-reply-keywords-overview").append("<em id=\"wx-reply-keyword-"+resdata.id+"\">"+resdata.keyword+"</em>");
+                            var li = "<li>"+resdata.keyword+"(完全匹配) <a><i class=\"fa fa-pencil\"></i></a> <a href=\"javascript:\" onclick=\"wxDelKeyword("+resdata.rule_id+", "+resdata.id+", this)\"><i class=\"fa fa-times\"></i></a></li>";
+                            $("#wx-rulelist-"+resdata.rule_id).find(".wx-reply-details .keywordlist").prepend(li);
+                            $("#wx-reply-addkeyword").modal('hide');
+                        }
+                    } else {
+                        $.wxAlert('添加失败，服务器错误');
+                    }
+                }
+            });
+        })
+        //end
+    });
+    
+    //删除关键词
+    function wxDelKeyword(ruleid, id, src)
+    {
+        $.wxConfirm('确定要删除这个关键词？',function(){
+            $.ajax({
+                type:'post',
+                url:"{{ url('delKeyword') }}",
+                data:{id:id,ruleid:ruleid},
+                error:function(){
+                    $.wxAlert('网络错误,请重试');
+                },
+                success:function(res){
+                    if(res != "ok"){
+                        $.wxAlert(res);
+                    } else {
+                        $(src).parent('li').remove();
+                        $("#wx-reply-keyword-"+id).remove();
+                    }
+                }
+            })
+        });
+    }
+    
+    //添加关键词
+    function wxAddKeyword(ruleid)
+    {
+        $("#wx-reply-addkeyword-ruleid").val(ruleid);
+        $("#wx-reply-addkeyword-form")[0].reset();
+        $("#wx-reply-addkeyword").modal();
+    }
+</script>
+{% endblock %}

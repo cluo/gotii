@@ -37,7 +37,7 @@ abstract class WechatController extends BackendController
                 'text' => '自动回复',
                 'children' => array(
                     'c1' => array('text' => '关注时回复', 'url' => $this->url->get('WxReply/subscribe')),
-                    'c2' => array('text' => '关键词回复', 'url' => $this->url->get('WxReply/keyword')),
+                    'c2' => array('text' => '关键词回复', 'url' => $this->url->get('WxReply/list')),
                     'c3' => array('text' => '机器人回复', 'url' => $this->url->get('WxReply/robot'))
                 )
             ),

@@ -1,0 +1,85 @@
+{% extends "main.phtml" %}
+{% block content %}
+{{ partial('aside',['actived':'g2.c2']) }}
+<section class="content">
+    <section class="toolbar">
+        <button type="button" class="btn btn-primary" onclick="wxReplyAdd()">添加新规则</button>
+    </section>
+    <table class="table small">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>规则名</th>
+                <th>关键词</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rule in list %}
+            <tr>
+                <td>{{ rule.id }}</td>
+                <td>{{ rule.title }}</td>
+                <td>
+                {% if keywords[rule.id] is defined %}
+                    {% for keyword in keywords[rule.id] %}
+                    {{ keyword.keyword }}
+                    {% endfor %}
+                {% endif %}
+                </td>
+                <td>
+                    编辑 删除
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+<div style="display:none;" id="modal-newreply" title="新建规则">
+    <form method="post" action="{{ url('add') }}">
+        <div class="form-group">
+            <label>规则名</label>
+            <input type="text" class="form-control" name="rule[title]"/>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block javascript %}
+<script>window.currentnav='nav-99';</script>
+<script type="text/javascript">
+    function wxReplyAdd()
+    {
+        $("#modal-newreply").dialog({
+            position:{my:'center','at':'top+200'},
+            buttons:[
+                {
+                    text:'确定',
+                    click:function(){
+                        var modal = $(this);
+                        var form = modal.find('form').eq(0);
+                        form.on('submit',function(e){
+                            e.preventDefault();
+                            form.ajaxSubmit({
+                                type:'post',
+                                dataType:"json",
+                                success:function(res){
+                                    if (typeof(res)=='object') {
+                                        if (res.status == 0) {
+                                            $.wxAlert(res.msg);
+                                        } else {
+                                            window.location.href = "{{ url('edit') }}?id="+res.data.id;
+                                        }
+                                    } else {
+                                        $.wxAlert('添加失败');
+                                    }
+                                    modal.dialog('close');
+                                }
+                            });
+                        });
+                        form.submit();
+                    }
+                }
+            ]
+        });
+    }
+</script>
+{% endblock %}

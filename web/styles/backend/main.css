@@ -1,15 +1,4 @@
-@keyframes fade-in {
-    0% {opacity: 0.1;}
-    100% {opacity: 1;}
-}
-@-webkit-keyframes fade-in {/*针对webkit内核*/
-    0% {opacity: 0.1;}
-    100% {opacity: 1;}
-}
 body {
-    animation: fade-in;/*动画名称*/
-    animation-duration: 1s;/*动画持续时间*/
-    -webkit-animation:fade-in 1s;/*针对webkit内核*/
     font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","微软雅黑","黑体",Arial,sans-serif;
     color: #222;
 }
@@ -69,7 +58,8 @@ body {
 /*内容区域*/
 .content {
     width:950px;
-    float:right;
+    float:left;
+    margin-left:20px;
     min-height: 900px;
     margin-bottom: 20px;
 }

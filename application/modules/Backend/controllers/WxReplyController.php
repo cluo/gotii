@@ -15,25 +15,90 @@ class WxReplyController extends WechatController
     }
     
     /**
-     * 关注时回复
+     * 规则列表页
      */
-    public function subscribeAction()
-    {
-        
-    }
-    
-    /**
-     * 关键词回复
-     */
-    public function keywordAction()
+    public function listAction()
     {
         $criteria = array(
             'conditions' => "wechat_id=:wechat_id: AND type=:type:",
             'bind' => array('wechat_id'=>$this->wechat['id'],'type'=>'0')
         );
         $list = \Model\ReplyRule::find($criteria);
+        //读取所有keywords
+        $klist = \Model\ReplyKeyword::find(array('wechat_id=:wechat_id:','bind'=>array('wechat_id'=>$this->wechat['id'])));
+        $keywords = array();
+        foreach ($klist as $k) {
+            $keywords[$k->rule_id][] = $k;
+        }
+        $this->view->setVar('keywords',$keywords);
         $this->view->setVar('list', $list);
     }
+    
+    /**
+     * 编辑规则
+     */
+    public function editAction()
+    {
+        if ($this->request->isPost() == true) {
+            
+        } 
+    }
+    
+    /**
+     * 添加规则
+     */
+    public function addAction()
+    {
+        $this->view->disable();
+        $model = new \Model\ReplyRule();
+        $model->wechat_id = $this->wechat['id'];
+        if ($model->create($this->request->getPost('rule')) == false) {
+            $res = array('status'=>0,'msg'=>'添加纪录失败');
+        } else {
+            $res = array('status'=>1,'data'=>$model->toArray());
+        }
+        $this->response->setJsonContent($res)->send();
+    }
+    
+    /**
+     * 添加关键词
+     */
+    public function addKeywordAction()
+    {
+        $this->view->disable();
+        if ($this->request->isPost()) {
+            $model = new \Model\ReplyKeyword();
+            $model->wechat_id = $this->wechat['id'];
+            $postdata = $this->request->getPost('keyword');
+            if ($model->create($postdata) == false) {
+                return $this->response->setJsonContent(array('status'=>0,'msg'=>'添加失败'));
+            }
+            return $this->response->setJsonContent(array('status'=>1,'data'=>$model->toArray()));
+        } else {
+            return $this->response->setJsonContent(array('status'=>0,'msg'=>'非法请求'));
+        }
+    }
+    
+    /**
+     * 删除关键词
+     */
+    public function delKeywordAction()
+    {
+        $this->view->disable();
+        if ($this->request->isPost()) {
+            $ruleid = $this->request->get('ruleid','int');
+            $id = $this->request->get('id','int');
+            $keyword = new \Model\ReplyKeyword();
+            if ($keyword->wxDelete($id,$ruleid,$this->wechat['id'])) {
+                echo "ok";
+            } else {
+                echo "删除失败";
+            }
+        } else {
+            echo "非法请求";
+        }
+    }
+    
     
     /**
      * 机器人回复
@@ -44,17 +109,11 @@ class WxReplyController extends WechatController
     }
     
     /**
-     * 添加规则
+     * 关注时回复
      */
-    public function addRuleAction()
+    public function subscribeAction()
     {
-        $this->view->disable();
-        $model = new \Model\ReplyRule();
-        $model->wechat_id = $this->wechat['id'];
-        if ($model->create($this->request->getPost('newrule')) == false) {
-            echo "添加失败";
-        }
-        echo "ok";
+        
     }
 }
 

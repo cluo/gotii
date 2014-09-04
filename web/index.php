@@ -20,14 +20,16 @@ try {
     include ROOT_PATH . "/bootstrap/bootstrap.php"; 
     //将sql写到log文件中
     $profiles = $phalconDI->get('profiler')->getProfiles();
-    $logger = $phalconDI->get('logger');
-    $logger->begin();
-    $logger->info('======='.date('Y-m-d H:i:s').'=======');
-    foreach ($profiles as $i=>$profile) {
-        $logger->info($profile->getSQLStatement());
+    if($profiles){
+        $logger = $phalconDI->get('logger');
+        $logger->begin();
+        $logger->info('======='.date('Y-m-d H:i:s').'=======');
+        foreach ($profiles as $i=>$profile) {
+            $logger->info($profile->getSQLStatement());
+        }
+        $logger->info("=======END=======\n");
+        $logger->commit();
     }
-    $logger->info("=======END=======\n");
-    $logger->commit();
 } catch (\Exception $e) {
     
     echo "File:" . $e->getFile() . "<br/>";
