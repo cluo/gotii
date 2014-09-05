@@ -2,6 +2,10 @@
 {% block content %}
 {{ partial('aside',['actived':'g2.c2']) }}
 <section class="content">
+    <ol class="breadcrumb">
+      <li><a href="{{ url.get('/Backend') }}">首页</a></li>
+      <li class="active">规则列表</li>
+    </ol>
     <section class="toolbar">
         <button type="button" class="btn btn-primary" onclick="wxReplyAdd()">添加新规则</button>
     </section>
@@ -27,7 +31,7 @@
                 {% endif %}
                 </td>
                 <td>
-                    编辑 删除
+                    <a href="{{ url('edit',['id':rule.id]) }}">编辑</a> 删除
                 </td>
             </tr>
             {% endfor %}
@@ -38,7 +42,7 @@
     <form method="post" action="{{ url('add') }}">
         <div class="form-group">
             <label>规则名</label>
-            <input type="text" class="form-control" name="rule[title]"/>
+            <input type="text" class="form-control" name="rule[title]" placeholder="20字以内" maxlength="20" required/>
         </div>
     </form>
 </div>
@@ -46,36 +50,37 @@
 {% block javascript %}
 <script>window.currentnav='nav-99';</script>
 <script type="text/javascript">
+    var formNewreply = $("#modal-newreply form:first");
+    formNewreply.on('submit',function(e){
+        e.preventDefault();
+        formNewreply.ajaxSubmit({
+            type:'post',
+            dataType:"json",
+            success:function(res){
+                if (typeof(res)=='object') {
+                    if (res.status == 0) {
+                        $.wxAlert(res.msg);
+                    } else {
+                        window.location.href = "{{ url('edit') }}?id="+res.data.id;
+                    }
+                } else {
+                    $.wxAlert('添加失败');
+                }
+                formNewreply[0].reset();
+            }
+        });
+    })
     function wxReplyAdd()
     {
         $("#modal-newreply").dialog({
+            resizable:false,
             position:{my:'center','at':'top+200'},
             buttons:[
                 {
                     text:'确定',
                     click:function(){
-                        var modal = $(this);
-                        var form = modal.find('form').eq(0);
-                        form.on('submit',function(e){
-                            e.preventDefault();
-                            form.ajaxSubmit({
-                                type:'post',
-                                dataType:"json",
-                                success:function(res){
-                                    if (typeof(res)=='object') {
-                                        if (res.status == 0) {
-                                            $.wxAlert(res.msg);
-                                        } else {
-                                            window.location.href = "{{ url('edit') }}?id="+res.data.id;
-                                        }
-                                    } else {
-                                        $.wxAlert('添加失败');
-                                    }
-                                    modal.dialog('close');
-                                }
-                            });
-                        });
-                        form.submit();
+                        formNewreply.trigger('submit');
+                        $(this).dialog("destroy");
                     }
                 }
             ]

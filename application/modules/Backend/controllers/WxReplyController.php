@@ -39,9 +39,18 @@ class WxReplyController extends WechatController
      */
     public function editAction()
     {
+        $id = $this->request->get('id','int','0');
+        
         if ($this->request->isPost() == true) {
             
-        } 
+        } else {
+            $info = \Model\ReplyRule::findFirst($id);
+            if (!$info || $info->wechat_id != $this->wechat['id']) {
+                $msg = $this->message->error('规则不存在');
+                return $this->response->setContent($msg);
+            }
+            $this->view->setVar('info', $info);
+        }
     }
     
     /**
@@ -53,7 +62,7 @@ class WxReplyController extends WechatController
         $model = new \Model\ReplyRule();
         $model->wechat_id = $this->wechat['id'];
         if ($model->create($this->request->getPost('rule')) == false) {
-            $res = array('status'=>0,'msg'=>'添加纪录失败');
+            $res = array('status'=>0,'msg'=>$model->getLastMessage());
         } else {
             $res = array('status'=>1,'data'=>$model->toArray());
         }
@@ -63,15 +72,15 @@ class WxReplyController extends WechatController
     /**
      * 添加关键词
      */
-    public function addKeywordAction()
+    public function saveKeywordAction()
     {
         $this->view->disable();
         if ($this->request->isPost()) {
             $model = new \Model\ReplyKeyword();
             $model->wechat_id = $this->wechat['id'];
             $postdata = $this->request->getPost('keyword');
-            if ($model->create($postdata) == false) {
-                return $this->response->setJsonContent(array('status'=>0,'msg'=>'添加失败'));
+            if ($model->save($postdata) == false) {
+                return $this->response->setJsonContent(array('status'=>0,'msg'=>$model->getLastMessage()));
             }
             return $this->response->setJsonContent(array('status'=>1,'data'=>$model->toArray()));
         } else {

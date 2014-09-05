@@ -24,4 +24,13 @@ abstract class BaseModel extends \Phalcon\Mvc\Model
     {
         return $this->getModelsMetaData()->getPrimaryKeyAttributes($this);
     }
+    
+    public function getLastMessage()
+    {
+        $messages = $this->getMessages();
+        if ($lastmessage = array_pop($messages)) {
+            return $lastmessage->getMessage();
+        }
+        return null;
+    }
 }

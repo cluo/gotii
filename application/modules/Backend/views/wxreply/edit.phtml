@@ -2,13 +2,115 @@
 {% block content %}
 {{ partial('aside',['actived':'g2.c2']) }}
 <section class="content">
-    <form action="" role="form">
+    <ol class="breadcrumb">
+      <li><a href="{{ url.get('/Backend') }}">首页</a></li>
+      <li><a href="{{ url.get('list') }}">规则列表</a></li>
+      <li class="active">编辑规则</li>
+    </ol>
+    <h3>编辑规则</h3>
+    <hr/>
+    <div class="row">
+        <div class="col-md-6">
+            <form role="form" method="post">
+                <div class="form-group">
+                    <label>规则名</label>
+                    <input type="text" class="form-control" value="{{ info.title }}"/>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <label>关键词</label>
+                        <table id="wx-klist" class="table small">
+                            {% for keyword in info.keywords %}
+                            <tr id="wx-keyword-{{ keyword.id }}">
+                                <td><b>{{keyword.keyword}}</b></td>
+                                <td><?=str_replace(array('0','1'),array('完全匹配','模糊匹配'),$keyword->match_method);?></td>
+                                <td width="50">
+                                    <a><i class="fa fa-pencil"></i></a>  
+                                    <a href="javascript:" onclick="wxDelKeyword({{ keyword.id }})"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="javascript:" onclick="addKeyword('{{ info.id }}')">添加关键词</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>回复内容</label>
+                </div>
+                <div class="form-group">
+                    <label>规则说明：</label>
+                    <div class="help-block">
+                        系统根据用户发送的内容去匹配关键词，匹配到关键词后将随机返回该规则中的一条回复内容。
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<div class="hidden" id="modal-newkeyword" title="新关键词">
+    <form method="post" action="{{ url('saveKeyword') }}">
+        <input type="hidden" name="keyword[rule_id]" value="{{ info.id }}" />
         <div class="form-group">
-            <label>规则名</label>
+            <label>关键词</label>
+            <input type="text" class="form-control" name="keyword[keyword]" placeholder="15字以内" maxlength="15" required />
+        </div>
+        <div class="form-group">
+            <label>匹配方式</label>
+            <select name="keyword[match_method]" class="form-control">
+                <option value="0">完全匹配</option>
+                <option value="1">模糊匹配</option>
+            </select>
         </div>
     </form>
-</section>
+</div>
 {% endblock %}
 {% block javascript %}
 <script>window.currentnav='nav-99';</script>
+<script type="text/javascript">
+    var form_keyword = $("#modal-newkeyword form:first");
+    //添加关键词表单提交事件
+    form_keyword.on('submit',function(e){
+        e.preventDefault();
+        $(this).ajaxSubmit({
+            type:'post',
+            dataType:"json",
+            error:function(){
+                $.wxAlert('网络错误，请重试');
+            },
+            success:function(res){
+                if (typeof(res)=='object') {
+                    if (res.status == 0) {
+                        $.wxAlert(res.msg);
+                    } else {
+                        //将关键词追加到列表中
+                        $("#wx-klist").append("<li id='wx-keyword-"+res.data.id+"'>"+res.data.keyword+"</li>");
+                    }
+                } else {
+                    $.wxAlert('添加失败');
+                }
+                form_keyword[0].reset();
+                
+            }
+        });
+    });
+    //添加新关键词click对话框
+    function addKeyword(ruleid)
+    {
+        $("#modal-newkeyword").dialog({
+            resizable:false,
+            position:{my:'center','at':'top+300'},
+            buttons:[
+                {
+                    text:'确定',
+                    click:function(){
+                        form_keyword.trigger('submit');
+                        $(this).dialog("destroy");
+                    }
+                }
+            ]
+        });
+    }
+</script>
 {% endblock %}

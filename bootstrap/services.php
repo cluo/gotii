@@ -8,36 +8,6 @@
 $phalconDI = new \Phalcon\DI\FactoryDefault();
 
 /**
- * 循环调度服务dispatcher
- */
-//$phalconDI->set('dispatcher', function() use ($phalconDI){
-//    //Create an event manager
-//    $eventsManager = new \Phalcon\Events\Manager();
-//    //Attach a listener for type "dispatch"
-//    $eventsManager->attach("dispatch", function($event, $dispatcher) use ($phalconDI) {
-//        //调度结束后
-//        if ($event->getType() == 'afterDispatchLoop') {
-//            //将profile写入到文件中
-//            $profiles = $phalconDI->get('profiler')->getProfiles();
-//            $logger = $phalconDI->get('logger');
-//            $logger->begin();
-//            $logger->info('======='.date('Y-m-d H:i:s').'=======');
-//            foreach ($profiles as $profile) {
-//                $logger->info($profile->getSQLStatement());
-//            }
-//            $logger->commit();
-//        }
-//    });
-//
-//    $dispatcher = new \Phalcon\Mvc\Dispatcher();
-//
-//    $dispatcher->setEventsManager($eventsManager);
-//
-//    return $dispatcher;
-//
-//}, true);
-
-/**
  * 日志记录服务
  */
 $phalconDI->set('logger',function(){
@@ -98,7 +68,10 @@ $phalconDI->set('db',function() use ($config,$phalconDI){
  */
 $phalconDI->set('modelsMetadata', function () {
     //默认使用内存缓存，即每次请求过程中只读取一次
-    return new \Phalcon\Mvc\Model\Metadata\Memory();
+    //return new \Phalcon\Mvc\Model\Metadata\Memory();
+    return new \Phalcon\Mvc\Model\Metadata\Files(array(
+        'metaDataDir' => RUNTIME_PATH.'/metacache/'
+    ));
 });
 
 /**

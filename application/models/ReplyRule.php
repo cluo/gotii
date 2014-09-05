@@ -9,7 +9,7 @@ class ReplyRule extends BaseModel
 {
     public $id;
     public $wechat_id;
-    public $title = "";
+    public $title;
     public $type = "0";
     public $send_method = "0";
     
@@ -25,8 +25,12 @@ class ReplyRule extends BaseModel
         $this->hasMany("id", "\Model\ReplyKeyword", "rule_id", array('alias'=>'keywords'));
     }
     
-    public function beforeValidationOnCreate()
+    public function validation()
     {
-        
+        //判断title是否为空
+        if ($this->title == "") {
+            $this->appendMessage(new \Phalcon\Mvc\Model\Message('规则名不能为空','title'));
+            return false;
+        }
     }
 }

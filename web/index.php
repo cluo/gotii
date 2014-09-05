@@ -27,6 +27,7 @@ try {
         foreach ($profiles as $i=>$profile) {
             $logger->info($profile->getSQLStatement());
         }
+        $logger->info("内存占用：".round(xdebug_memory_usage()/1024,2)."kb,消耗时间：".round(xdebug_time_index()*1000,3)."ms");
         $logger->info("=======END=======\n");
         $logger->commit();
     }

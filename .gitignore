@@ -2,3 +2,4 @@ nbproject
 vendor
 application/runtime/volt/*.compiled
 application/runtime/logs/*.log
+application/runtime/metacache/*.php

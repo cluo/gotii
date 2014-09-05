@@ -17,7 +17,7 @@ $.wxAlert = function(msg,advanced){
     ];
     //关闭对话框时销毁对象
     var close = function(event,ui){
-        $(this).remove();
+        $(this).dialog('destroy');
     }
     //生成对话框
     box.dialog({ resizable : false,buttons:buttons,close:close,position: { my: "center", at: "top+200" } });
