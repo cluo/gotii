@@ -49,6 +49,8 @@ class WxReplyController extends WechatController
                 $msg = $this->message->error('规则不存在');
                 return $this->response->setContent($msg);
             }
+            $keywords = json_encode($info->keywords->toArray());
+            $this->view->setVar('keywords',$keywords);
             $this->view->setVar('info', $info);
         }
     }

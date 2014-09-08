@@ -20,16 +20,7 @@
                     <div class="panel-body">
                         <label>关键词</label>
                         <table id="wx-klist" class="table small">
-                            {% for keyword in info.keywords %}
-                            <tr id="wx-keyword-{{ keyword.id }}">
-                                <td><b>{{keyword.keyword}}</b></td>
-                                <td><?=str_replace(array('0','1'),array('完全匹配','模糊匹配'),$keyword->match_method);?></td>
-                                <td width="50">
-                                    <a><i class="fa fa-pencil"></i></a>  
-                                    <a href="javascript:" onclick="wxDelKeyword({{ keyword.id }})"><i class="fa fa-times"></i></a>
-                                </td>
-                            </tr>
-                            {% endfor %}
+                            
                         </table>
                     </div>
                     <div class="panel-footer">
@@ -49,7 +40,7 @@
         </div>
     </div>
 </section>
-<div class="hidden" id="modal-newkeyword" title="新关键词">
+<div style="display:none;" id="modal-newkeyword" title="新关键词">
     <form method="post" action="{{ url('saveKeyword') }}">
         <input type="hidden" name="keyword[rule_id]" value="{{ info.id }}" />
         <div class="form-group">
@@ -69,32 +60,29 @@
 {% block javascript %}
 <script>window.currentnav='nav-99';</script>
 <script type="text/javascript">
+    //关键词列表json
+    var keywordlist = {{ keywords }};
+    //新关键词表单
     var form_keyword = $("#modal-newkeyword form:first");
-    //添加关键词表单提交事件
-    form_keyword.on('submit',function(e){
-        e.preventDefault();
-        $(this).ajaxSubmit({
-            type:'post',
-            dataType:"json",
-            error:function(){
-                $.wxAlert('网络错误，请重试');
-            },
-            success:function(res){
-                if (typeof(res)=='object') {
-                    if (res.status == 0) {
-                        $.wxAlert(res.msg);
-                    } else {
-                        //将关键词追加到列表中
-                        $("#wx-klist").append("<li id='wx-keyword-"+res.data.id+"'>"+res.data.keyword+"</li>");
-                    }
-                } else {
-                    $.wxAlert('添加失败');
-                }
-                form_keyword[0].reset();
-                
-            }
-        });
-    });
+    //填充关键词
+    function renderKeywordlist(data)
+    {
+        if (data.length == 0) return;
+        $("#wx-klist").html('');
+        for (k in data) {
+            var keyword=data[k];
+            var html = "<tr id=\"wx-keyword-"+keyword.id+"\">\
+                <td><b>"+keyword.keyword+"</b></td>\
+                <td>"+(keyword.match_method==0?'完全匹配':'模糊匹配')+"</td>\
+                <td width=\"50\">\
+                    <a><i class=\"fa fa-pencil\"><\/i><\/a>\
+                    <a href=\"javascript:\" onclick=\"delKeyword("+keyword.id+")\"><i class=\"fa fa-times\"></i></a>\
+                <\/td>\
+            </tr>";
+            $("#wx-klist").append(html);
+        }
+    }
+    
     //添加新关键词click对话框
     function addKeyword(ruleid)
     {
@@ -112,5 +100,50 @@
             ]
         });
     }
+    
+    //删除关键词
+    function delKeyword(id)
+    {
+        for (i in keywordlist) {
+            if (keywordlist[i].id == id) {
+                delete keywordlist[i];
+            }
+        }
+        renderKeywordlist(keywordlist);
+    }
+    
+    //onready
+    $(function(){
+        
+        //添加关键词表单提交事件
+        form_keyword.on('submit',function(e){
+            e.preventDefault();
+            $(this).ajaxSubmit({
+                type:'post',
+                dataType:"json",
+                error:function(){
+                    $.wxAlert('网络错误，请重试');
+                },
+                success:function(res){
+                    if (typeof(res)=='object') {
+                        if (res.status == 0) {
+                            $.wxAlert(res.msg);
+                        } else {
+                            //将关键词追加到列表中
+                            keywordlist.push(res.data);
+                            renderKeywordlist(keywordlist);
+                        }
+                    } else {
+                        $.wxAlert('添加失败');
+                    }
+                    form_keyword[0].reset();
+
+                }
+            });
+        });
+        
+        //渲染关键词列表
+        renderKeywordlist(keywordlist);
+    })
 </script>
 {% endblock %}
